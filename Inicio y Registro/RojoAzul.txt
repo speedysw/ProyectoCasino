@@ -1,0 +1,17 @@
+Instrucciones "Rojo y Azul"
+
+Este juego consiste en lo siguiente:
+
+El jugador tiene que apostarle una cantidad de dinero a uno de los dos colores, ya sea el rojo o el azul
+posteriormente despues de realizar la apuesta y escoger el color a apostar, el anfitrion saca dos cartas
+una para cada color, estas cartas van a representar a ambos colores y pueden darse los siguientes
+escenarios:
+
+1. Si la carta que representa el color azul es mayor que la carta del color rojo, se declarara ganador
+al color azul.
+2. Si la carta que representa el color rojo es mayor que la carta del color azul, se declarara ganador
+al color rojo.
+3. Si las cartas de ambos colores son iguales, se declarara un empate.
+
+Si el color escogido por el jugador gana, lo que aposto se doblara, si el color escogido pierde perdera
+lo apostado y si el jugador empata lo apostado se triplicara.

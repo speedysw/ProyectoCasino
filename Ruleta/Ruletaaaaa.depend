@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1624155953 source:c:\users\felipe\documents\xd\ruletaaaaa\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+

@@ -41,7 +41,7 @@
 
 1620007016 c:\users\cesar\desktop\proyecto\apuestas\hashmap.h
 
-1623948577 source:c:\users\cesar\desktop\proyecto\inicio sesion y registro\hashmap.c
+1623948577 source:c:\users\dylan\downloads\inicio sesion y registro\hashmap.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -49,21 +49,49 @@
 	<ctype.h>
 	"hashmap.h"
 
-1620007016 c:\users\cesar\desktop\proyecto\inicio sesion y registro\hashmap.h
+1620007016 c:\users\dylan\downloads\inicio sesion y registro\hashmap.h
 
-1622855996 source:c:\users\cesar\desktop\proyecto\inicio sesion y registro\treemap.c
+1622855996 source:c:\users\dylan\downloads\inicio sesion y registro\treemap.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"treemap.h"
 
-1622853131 c:\users\cesar\desktop\proyecto\inicio sesion y registro\treemap.h
+1622853131 c:\users\dylan\downloads\inicio sesion y registro\treemap.h
 
-1623983075 source:c:\users\cesar\desktop\proyecto\inicio sesion y registro\main.c
+1623989479 source:c:\users\dylan\downloads\inicio sesion y registro\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<math.h>
 	<ctype.h>
+	"treemap.h"
+	<windows.h>
+
+1623948578 source:c:\users\dylan\downloads\c\inicio sesion y registro\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 c:\users\dylan\downloads\c\inicio sesion y registro\hashmap.h
+
+1624227915 source:c:\users\dylan\downloads\c\inicio sesion y registro\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"treemap.h"
+	<windows.h>
+
+1622853132 c:\users\dylan\downloads\c\inicio sesion y registro\treemap.h
+
+1622855998 source:c:\users\dylan\downloads\c\inicio sesion y registro\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
 	"treemap.h"
 

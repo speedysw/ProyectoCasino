@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1623741777 source:f:\auniversidad\fundamentos programacion\azul\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+

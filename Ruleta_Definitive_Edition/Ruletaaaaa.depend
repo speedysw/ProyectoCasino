@@ -4,3 +4,9 @@
 	<stdlib.h>
 	<time.h>
 
+1624232175 source:c:\users\dylan\downloads\c\ruleta\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<windows.h>
+

@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1624850815 source:f:\auniversidad\fundamentos programacion\keno\main.c
+	<stdio.h>
+	<stdlib.h>
+	"hashmap.h"
+
+1624850194 source:f:\auniversidad\fundamentos programacion\keno\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 f:\auniversidad\fundamentos programacion\keno\hashmap.h
+

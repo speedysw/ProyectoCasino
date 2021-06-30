@@ -8,7 +8,7 @@
 
 typedef struct{
     char *numero;
-    unsigned long saldo;
+    unsigned long long saldo;
     unsigned long ganancias;
     unsigned long perdidas;
 }credito;
@@ -20,7 +20,6 @@ typedef struct{
     char* id;
     char* password;
 }usuario;
-
 
 typedef struct{
     char* nombre;
@@ -49,13 +48,18 @@ deportes *createDeportes(){
 }
 
 void apuestasTennis(usuario *) ;
-void importar(HashMap *);
+void apuestasFormula1(usuario *);
+void importarATP(HashMap *);
+void importarFormula(HashMap *);
+void importarNBA(HashMap *);
 const char *get_csv_field (char *, int );
-void emparejamiento(HashMap *, usuario *);
+void encuentrosATP(HashMap *, usuario *);
+void encuentrosF1(HashMap *, usuario *);
 void escoger(deportes *, deportes *, usuario *, deportes *);
+void apuestasNBA(usuario *);
+void encuentrosNBA(HashMap *, usuario *);
 
-int main()
-{
+int main(){
     usuario* prueba = createLogin(prueba);
     prueba->nombre = "Cesar";
     prueba->apellido = "Maureira";
@@ -63,7 +67,9 @@ int main()
     prueba->password = "hola123";
     prueba->tarjeta->numero = "1234 5343 5432 1234";
     prueba->tarjeta->saldo = 1000000;
-    apuestasTennis(prueba);
+   // apuestasTennis(prueba); //falta la wea del dinero;
+    //apuestasFormula1(prueba);
+    apuestasNBA(prueba);
 /*
     int a = 1;
     while(a!= 5){
@@ -71,7 +77,7 @@ int main()
          printf("1. Apuestas de Futbol\n");
          printf("2. Apuestas de Basketball\n");
          printf("3. Apuestas de Tennis\n");
-         printf("4. Carrera de caballos\n");
+         printf("4. Apuestas de Formula 1\n");
          printf("5. Atras\n");
          fflush(stdin);
          scanf("%d",&a);
@@ -93,23 +99,11 @@ int main()
 void apuestasTennis(usuario * prueba){
     int aux = 10 + 10 * 0.3;
     HashMap *MapATP = createMap(aux);
-    importar(MapATP);
-
-    deportes *d = firstMap(MapATP);
-    /*while(d != NULL){
-        printf("---------------------------------\n");
-        printf("Tenista: %s\n",d->nombre);
-        printf("Ranking ATP: %i\n", d->ranking);
-        printf("Pais: %s\n",d->pais);
-        printf("Multiplciador del Tenista: %.2f\n",d->multiplicador);
-        printf("Clave del mapa: %d\n",d->clave);
-        d = nextMap(MapATP);
-    }*/
-        //printf("")
-    emparejamiento(MapATP, prueba);
+    importarATP(MapATP);
+    encuentrosATP(MapATP, prueba);
 }
 
-void emparejamiento(HashMap* MapATP, usuario * prueba){
+void encuentrosATP(HashMap* MapATP, usuario * prueba){
 
     int sorteo,sorteo1;
     int cont = 0;
@@ -160,7 +154,6 @@ void escoger(deportes * x, deportes *d, usuario * prueba, deportes* escogido){
             int numero;
             unsigned long apuesta;
             HashMap* mapApuestas = createMap(4);
-            //printf("HOLA");
             if(strcmp(escogido->nombre,d->nombre) == 0){
 
                 int clave = 1;
@@ -227,7 +220,7 @@ void escoger(deportes * x, deportes *d, usuario * prueba, deportes* escogido){
             }
 }
 
-void importar(HashMap *MapATP){
+void importarATP(HashMap *MapATP){
     FILE* archivo;
     archivo = fopen("ATP.csv","r");
     if(archivo == NULL){
@@ -288,4 +281,177 @@ const char *get_csv_field (char * tmp, int k){ //Función para leer distintos dat
     }
 
     return NULL;
+}
+
+void apuestasFormula1(usuario * prueba){
+    int aux = 12 + 10 * 0.3;
+    HashMap *Formula1 = createMap(aux);
+    importarFormula(Formula1);
+    /*deportes *d = firstMap(Formula1);
+    while(d != NULL){
+        printf("| Clasificacion: %4d | %20s | %15s | %9i | %16.2f |\n",d->clave, d->nombre, d->pais, d->ranking, d->multiplicador);
+        d = nextMap(Formula1);
+    }*/
+    encuentrosF1(Formula1, prueba);
+}
+
+void encuentrosF1(HashMap * Formula1, usuario * prueba){
+
+    int piloto;
+    unsigned long apuesta;
+    deportes *d = firstMap(Formula1);
+    printf("|                               FORMULA 1: GRAN PREMIO DE FRANCIA                             |\n");
+    printf("-----------------------------------------------------------------------------------------------\n");
+    printf("|                     |         PILOTO       |    ESCUADRA     |   DORSAL  |   MULTIPLICADOR  |\n");
+    printf("-----------------------------------------------------------------------------------------------\n");
+    while(d != NULL){
+        printf("| Clasificacion: %4d | %20s | %15s | %9i | %16.2f |\n",d->clave, d->nombre, d->pais, d->ranking, d->multiplicador);
+        d = nextMap(Formula1);
+    }
+    printf("-----------------------------------------------------------------------------------------------\n");
+    printf("¿DESEA REALIZAR APUESTA POR ESTA CARRERA?\n");
+    printf("PRESIONE 1, SI DESEA APOSTAR POR ESTA CARRERA\n");
+    printf("PRESIONE 0, SI NO DESEA APOSTAR POR ESTA CARRERA\n");
+    int respuesta;
+    scanf("%i",&respuesta);
+    if(respuesta == 1){
+            printf("SELECCIONE A UN PILOTO (POR SU CLASIFICACION): ");
+        scanf("%i", &piloto);
+        deportes* aux = searchMap(Formula1, &piloto);
+        printf("PILOTO ESCOGIDO: %s\n", aux->nombre);
+        printf("INGRESE APUESTA: ");
+        scanf("%lu", &apuesta);
+        printf("Realizaste una apuesta de %lu CLP por %s \n", apuesta, aux->nombre);
+        prueba->tarjeta->saldo -= apuesta;
+        printf(" -------------------------------------------------------------------------------------------\n");
+
+        srand(time(NULL));
+        int cont=0;
+        printf("|                         RESULTADO FORMULA 1: GRAN PREMIO DE FRANCIA                       |\n");
+        printf(" -------------------------------------------------------------------------------------------\n");
+        printf("|   CLASIFICACION   |         PILOTO       |    ESCUADRA     |   DORSAL  |   MULTIPLICADOR  |\n");
+        printf(" -------------------------------------------------------------------------------------------\n");
+
+        int i = 0;
+        HashMap* Ganadores = createMap(4);
+        while(cont < 11){
+            int posicion = rand() % 11 + 1;
+            //printf("esta es la posicon %i\n", posicion);
+
+            while(searchMap(Formula1,&posicion) == NULL){
+                    posicion = rand () % 11 + 1;
+            }
+
+            deportes *ubicacion = searchMap(Formula1, &posicion);
+            if(ubicacion != NULL){
+                posicion = i + 1;
+                printf("| Posicion: %7d | %20s | %15s | %9i | %16.2f |\n",posicion, ubicacion->nombre, ubicacion->pais, ubicacion->ranking, ubicacion->multiplicador);
+                i++;
+            }
+
+            if(posicion == 1){
+                insertMap(Ganadores, &posicion, ubicacion);
+            }
+
+            eraseMap(Formula1, &ubicacion->clave);
+            cont++;
+        }
+        printf(" -------------------------------------------------------------------------------------------\n");
+        printf("                                RESULTADOS DE LA APUESTA                                    \n");
+        deportes* ganador = firstMap(Ganadores);
+        if(ganador == NULL){
+           printf("esta wea no tiene niuna wea");
+        }
+
+        if(strcmp(ganador->nombre, aux->nombre) == 0){
+            printf("Ganador de la carrera: %s\n", ganador->nombre);
+            printf("Ganaste la apuesta\n");
+            unsigned long resultante = (ganador->multiplicador * apuesta);
+            prueba->tarjeta->ganancias += resultante;
+            resultante = prueba->tarjeta->saldo + resultante;
+            prueba->tarjeta->saldo += resultante;
+            printf("Ganaste %lu CLP\n", prueba->tarjeta->ganancias);
+        }
+
+        if(strcmp(ganador->nombre, aux->nombre) != 0){
+            printf("Ganador de la carrera: %s\n", ganador->nombre);
+            printf("Perdiste la apuesta\n");
+            prueba->tarjeta->perdidas += apuesta;
+        }
+
+        printf("Este es tu saldo actual: %llu CLP\n", prueba->tarjeta->saldo);
+        printf("Esto es lo que ganaste: %lu CLP\n", prueba->tarjeta->ganancias);
+        printf("Esto es lo que perdiste: %lu CLP\n", prueba->tarjeta->perdidas);
+    }
+
+    printf(" -------------------------------------------------------------------------------------------\n");
+    printf("SI DESEA VOLVER AL MENU PRESIONE 1 , SI DESEA GENERAR UNA CARRERA NUEVA PRESIONE 2\n");
+    scanf("%i",&respuesta);
+
+    if(respuesta == 2){
+        encuentrosF1(Formula1, prueba);
+    }
+
+}
+
+void importarFormula(HashMap *Formula1){
+    FILE* archivo;
+    archivo = fopen("Formula1.csv","r");
+    if(archivo == NULL){
+        printf("El archivo no se abrio correctamente\n");
+        return 1;
+    }
+    int i = 0 ;
+    char line[50];
+    deportes *datos = createDeportes();
+    while(fgets(line,50,archivo) != NULL){
+        datos[i].nombre = (char *)get_csv_field(line,0);
+        datos[i].ranking = atoi(get_csv_field(line,1));
+        datos[i].pais = (char *)get_csv_field(line,2);
+        datos[i].multiplicador = atof(get_csv_field(line,3));
+        datos[i].clave = i + 1;
+        i++;
+    }
+    int cont = i - 1;
+    for(i=0 ; i < cont ; i++){
+        insertMap(Formula1,&datos[i].clave,&datos[i]);
+    }
+}
+
+void apuestasNBA(usuario * prueba){
+    int aux = 12 + 10 * 0.3;
+    HashMap *mapDeportes = createMap(aux);
+    importarNBA(mapDeportes);
+    deportes *d = firstMap(mapDeportes);
+    while(d != NULL){
+        printf("| Clasificacion: %4d | %20s | %15s | %9i | %16.2f |\n",d->clave, d->nombre, d->pais, d->ranking, d->multiplicador);
+        d = nextMap(mapDeportes);
+    }
+
+
+}
+
+void importarNBA(HashMap *mapDeportes){
+    FILE* archivo;
+    archivo = fopen("NBA.csv","r");
+    if(archivo == NULL){
+        printf("El archivo no se abrio correctamente\n");
+        return 1;
+    }
+    int i = 0 ;
+    char line[50];
+    deportes *datos = createDeportes();
+    while(fgets(line,50,archivo) != NULL){
+        datos[i].nombre = (char *)get_csv_field(line,0);
+        datos[i].ranking = atoi(get_csv_field(line,1));
+        datos[i].pais = (char *)get_csv_field(line,2);
+        datos[i].multiplicador = atof(get_csv_field(line,3));
+        datos[i].clave = i;
+        i++;
+    }
+
+    int cont = i;
+    for(i=1 ; i < cont ; i++){
+        insertMap(mapDeportes,&datos[i].clave,&datos[i]);
+    }
 }

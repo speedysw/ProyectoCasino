@@ -244,7 +244,7 @@ void importarATP(HashMap *MapATP){
     }
 }
 
-const char *get_csv_field (char * tmp, int k){ //Función para leer distintos datos del archivo.
+const char *get_csv_field (char * tmp, int k){ //FunciÃ³n para leer distintos datos del archivo.
     //int open_mark = 0;
     char* ret=(char*) malloc (100*sizeof(char));
     int ini_i=0, i=0;
@@ -309,7 +309,7 @@ void encuentrosF1(HashMap * Formula1, usuario * prueba){
         d = nextMap(Formula1);
     }
     printf("-----------------------------------------------------------------------------------------------\n");
-    printf("¿DESEA REALIZAR APUESTA POR ESTA CARRERA?\n");
+    printf("Â¿DESEA REALIZAR APUESTA POR ESTA CARRERA?\n");
     printf("PRESIONE 1, SI DESEA APOSTAR POR ESTA CARRERA\n");
     printf("PRESIONE 0, SI NO DESEA APOSTAR POR ESTA CARRERA\n");
     int respuesta;
@@ -360,7 +360,7 @@ void encuentrosF1(HashMap * Formula1, usuario * prueba){
         printf("                                RESULTADOS DE LA APUESTA                                    \n");
         deportes* ganador = firstMap(Ganadores);
         if(ganador == NULL){
-           printf("esta wea no tiene niuna wea");
+           printf("no contiene nada");
         }
 
         if(strcmp(ganador->nombre, aux->nombre) == 0){

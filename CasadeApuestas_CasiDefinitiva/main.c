@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <ctype.h>>
 #include "hashmap.h"
 #include <time.h>
 
 typedef struct{
     char *numero;
-    unsigned long long saldo;
+    unsigned long saldo;
     unsigned long ganancias;
     unsigned long perdidas;
 }credito;
@@ -42,22 +41,27 @@ usuario *createLogin() {
 
 deportes *createDeportes(){
     deportes *aux = (deportes *) malloc(sizeof(deportes)*10);
-    aux->nombre = (char *) malloc(sizeof(char) * 18);
-    aux->pais = (char *) malloc(sizeof(char) * 9);
+    aux->nombre = (char *) malloc(sizeof(char) * 25);
+    aux->pais = (char *) malloc(sizeof(char) * 15);
     return aux;
 }
 
-void apuestasTennis(usuario *) ;
-void apuestasFormula1(usuario *);
+
 void importarATP(HashMap *);
 void importarFormula(HashMap *);
 void importarNBA(HashMap *);
+void importarFutbol(HashMap *);
 const char *get_csv_field (char *, int );
+void apuestasTennis(usuario *) ;
+void apuestasFormula1(usuario *);
+void apuestasNBA(usuario *);
+void apuestasFutbol(usuario *);
 void encuentrosATP(HashMap *, usuario *);
 void encuentrosF1(HashMap *, usuario *);
-void escoger(deportes *, deportes *, usuario *, deportes *);
-void apuestasNBA(usuario *);
 void encuentrosNBA(HashMap *, usuario *);
+void encuentrosFutbol(HashMap *, usuario *);
+void escoger(deportes *, deportes *, usuario *, deportes *);
+void escogerApuesta(usuario*, deportes *, deportes *, deportes *);
 
 int main(){
     usuario* prueba = createLogin(prueba);
@@ -68,8 +72,9 @@ int main(){
     prueba->tarjeta->numero = "1234 5343 5432 1234";
     prueba->tarjeta->saldo = 1000000;
    // apuestasTennis(prueba); //falta la wea del dinero;
-    //apuestasFormula1(prueba);
-    apuestasNBA(prueba);
+    apuestasFormula1(prueba);
+    //apuestasNBA(prueba);
+    //apuestasFutbol(prueba);
 /*
     int a = 1;
     while(a!= 5){
@@ -104,7 +109,6 @@ void apuestasTennis(usuario * prueba){
 }
 
 void encuentrosATP(HashMap* MapATP, usuario * prueba){
-
     int sorteo,sorteo1;
     int cont = 0;
     int aux=10;
@@ -141,7 +145,7 @@ void encuentrosATP(HashMap* MapATP, usuario * prueba){
             printf("Escoja a uno de los dos tenistas (introduzca el nombre completo): ");
             scanf("%[^\n]",escogido->nombre);
             fflush(stdin);
-            escoger(x,d,prueba,escogido);
+            escogerApuesta(prueba,d,x,escogido);
             cont++;
         }
     }
@@ -150,7 +154,7 @@ void encuentrosATP(HashMap* MapATP, usuario * prueba){
     printf("Esto es lo que perdiste: %lu CLP\n", prueba->tarjeta->perdidas);
 }
 
-void escoger(deportes * x, deportes *d, usuario * prueba, deportes* escogido){
+/*void escoger(deportes * x, deportes *d, usuario * prueba, deportes* escogido){
             int numero;
             unsigned long apuesta;
             HashMap* mapApuestas = createMap(4);
@@ -218,14 +222,14 @@ void escoger(deportes * x, deportes *d, usuario * prueba, deportes* escogido){
                     escoger(x,d,prueba,escogido);
                }
             }
-}
+}*/
 
 void importarATP(HashMap *MapATP){
     FILE* archivo;
     archivo = fopen("ATP.csv","r");
     if(archivo == NULL){
         printf("El archivo no se abrio correctamente\n");
-        return 1;
+        return exit(1);
     }
     int i = 0 ;
     char line[40];
@@ -244,7 +248,7 @@ void importarATP(HashMap *MapATP){
     }
 }
 
-const char *get_csv_field (char * tmp, int k){ //FunciÃ³n para leer distintos datos del archivo.
+const char *get_csv_field (char * tmp, int k){ //Función para leer distintos datos del archivo.
     //int open_mark = 0;
     char* ret=(char*) malloc (100*sizeof(char));
     int ini_i=0, i=0;
@@ -296,7 +300,6 @@ void apuestasFormula1(usuario * prueba){
 }
 
 void encuentrosF1(HashMap * Formula1, usuario * prueba){
-
     int piloto;
     unsigned long apuesta;
     deportes *d = firstMap(Formula1);
@@ -309,7 +312,7 @@ void encuentrosF1(HashMap * Formula1, usuario * prueba){
         d = nextMap(Formula1);
     }
     printf("-----------------------------------------------------------------------------------------------\n");
-    printf("Â¿DESEA REALIZAR APUESTA POR ESTA CARRERA?\n");
+    printf("¿DESEA REALIZAR APUESTA POR ESTA CARRERA?\n");
     printf("PRESIONE 1, SI DESEA APOSTAR POR ESTA CARRERA\n");
     printf("PRESIONE 0, SI NO DESEA APOSTAR POR ESTA CARRERA\n");
     int respuesta;
@@ -359,9 +362,6 @@ void encuentrosF1(HashMap * Formula1, usuario * prueba){
         printf(" -------------------------------------------------------------------------------------------\n");
         printf("                                RESULTADOS DE LA APUESTA                                    \n");
         deportes* ganador = firstMap(Ganadores);
-        if(ganador == NULL){
-           printf("no contiene nada");
-        }
 
         if(strcmp(ganador->nombre, aux->nombre) == 0){
             printf("Ganador de la carrera: %s\n", ganador->nombre);
@@ -427,8 +427,130 @@ void apuestasNBA(usuario * prueba){
         printf("| Clasificacion: %4d | %20s | %15s | %9i | %16.2f |\n",d->clave, d->nombre, d->pais, d->ranking, d->multiplicador);
         d = nextMap(mapDeportes);
     }
+    encuentrosNBA(mapDeportes, prueba);
+}
+
+void encuentrosNBA(HashMap *mapDeportes, usuario * prueba){
+    int sorteo,sorteo1;
+    int cont = 0;
+    int aux=12;
+    deportes* escogido = createDeportes();
+    srand(time(NULL));
+    while(cont < 6){
+
+        sorteo = rand () % aux + 1; // 8
+        sorteo1 = rand () % aux + 1; // 1
 
 
+        if(sorteo == sorteo1){
+                sorteo = rand () % aux + 1; // 8
+                sorteo1 = rand () % aux + 1; // 1
+        }
+
+        while(searchMap(mapDeportes,&sorteo) == NULL){
+                sorteo = rand () % aux + 1;
+        }
+
+        while(searchMap(mapDeportes,&sorteo1) == NULL){
+                sorteo1 = rand() % aux + 1;
+        }
+
+
+        if(sorteo != sorteo1){
+            int respuesta= 0;
+            deportes *d = searchMap(mapDeportes, &sorteo); // le da los datos del 1
+            deportes *x = searchMap(mapDeportes, &sorteo1); // le da los datos del 8
+            eraseMap(mapDeportes, &sorteo1);
+            eraseMap(mapDeportes, &sorteo);
+            insertMap(mapDeportes, &d->nombre, &d);
+            insertMap(mapDeportes, &x->nombre, &x);
+            if((strcmp(d->pais,"Conferencia Este") == 0) && (strcmp(x->pais,"Conferencia Este") == 0)) printf("ENCUENTRO DE LA CONFERENCIA ESTE\n");
+            if((strcmp(d->pais,"Conferencia Oeste") == 0) && (strcmp(x->pais,"Conferencia Oeste") == 0)) printf("ENCUENTRO DE LA CONFERENCIA OESTE\n");
+            if((strcmp(d->pais,"Conferencia Oeste") != 0) && (strcmp(x->pais,"Conferencia Oeste") == 0)) printf("ENCUENTRO AMISTOSO DE LA NBA\n");
+            if((strcmp(d->pais,"Conferencia Este") != 0) && (strcmp(x->pais,"Conferencia Este") == 0)) printf("ENCUENTRO AMISTOSO DE LA NBA\n");
+            printf("| Clasificacion: %d | %s | %s | x%10.2f | vs | Clasificacion: %d | %s | %s | x%.2f |\n",d->ranking,d->pais,d->nombre,d->multiplicador,x->ranking,x->pais,x->nombre,x->multiplicador);
+            printf("¿DESEA APOSTAR POR ESTE ENCUENTRO?\n");
+            printf("Presione 1, si esque desea apostar\n");
+            printf("Presione 2, para pasar al siguiente encuentro\n");
+            scanf("%i",&respuesta);
+            if(respuesta == 1){
+                deportes* apostado = createDeportes();
+                printf("SELECCIONE A UN EQUIPO(POR NOMBRE)");
+                scanf("%[^\n]",apostado->nombre);
+                fflush(stdin);
+                escogerApuesta(prueba, d, x, apostado);
+            }
+            cont++;
+        }
+        printf("Este es el contador: %i", cont);
+    }
+
+    printf("Este es tu saldo actual: %lu CLP\n", prueba->tarjeta->saldo);
+    printf("Esto es lo que ganaste: %lu CLP\n", prueba->tarjeta->ganancias);
+    printf("Esto es lo que perdiste: %lu CLP\n", prueba->tarjeta->perdidas);
+
+}
+
+void escogerApuesta(usuario* prueba, deportes* equipo1, deportes* equipo2, deportes* apostado){
+    int sorteo;
+    unsigned long apuesta;
+
+    if(strcmp(apostado->nombre,equipo1->nombre) == 0){
+        printf("Introduzca su apuesta: ");
+        scanf("%lu",&apuesta);
+        prueba->tarjeta->saldo = prueba->tarjeta->saldo - apuesta;
+        printf("Tu apuesta fue de: %lu CLP \n", apuesta);
+        sorteo = rand() % 2 + 1;
+
+        if(sorteo == 1){
+            printf("GANADOR: %s\n", equipo1->nombre);
+            printf("GANASTE!!! %.2f CLP \n", apuesta * equipo1->multiplicador);
+            prueba->tarjeta->ganancias += (apuesta * equipo1->multiplicador);
+            prueba->tarjeta->saldo += (apuesta * equipo1->multiplicador);
+        }
+
+        if(sorteo == 2){
+            printf("GANADOR: %s\n", equipo2->nombre);
+            printf("PERDISTE!!!\n");
+            prueba->tarjeta->perdidas += apuesta;
+        }
+    }
+
+    if(strcmp(apostado->nombre,equipo2->nombre) == 0){
+        printf("Introduzca su apuesta: ");
+        scanf("%lu",&apuesta);
+        prueba->tarjeta->saldo = prueba->tarjeta->saldo - apuesta;
+        printf("Tu apuesta fue de: %lu CLP \n", apuesta);
+        sorteo = rand() % 2 + 1;
+        if(sorteo == 1){
+            printf("GANADOR: %s\n", equipo2->nombre);
+            printf("GANASTE!!! %.2f CLP \n", apuesta * equipo2->multiplicador);
+            prueba->tarjeta->ganancias += (apuesta * equipo2->multiplicador);
+            prueba->tarjeta->saldo += (apuesta * equipo2->multiplicador);
+        }
+
+        if(sorteo == 2){
+            printf("GANADOR: %s\n", equipo1->nombre);
+            printf("PERDISTE!!!\n");
+            prueba->tarjeta->perdidas += apuesta;
+        }
+    }
+
+    if(strcmp(apostado->nombre,equipo1->nombre) != 0){
+        if(strcmp(apostado->nombre,equipo2->nombre) != 0){
+            scanf("%[^\n]",apostado->nombre);
+            fflush(stdin);
+            escogerApuesta(prueba,equipo1,equipo2,apostado);
+        }
+    }
+
+    if(strcmp(apostado->nombre,equipo2->nombre) != 0){
+        if(strcmp(apostado->nombre,equipo1->nombre) != 0){
+            scanf("%[^\n]",apostado->nombre);
+            fflush(stdin);
+            escogerApuesta(prueba,equipo1,equipo2,apostado);
+        }
+    }
 }
 
 void importarNBA(HashMap *mapDeportes){
@@ -454,4 +576,102 @@ void importarNBA(HashMap *mapDeportes){
     for(i=1 ; i < cont ; i++){
         insertMap(mapDeportes,&datos[i].clave,&datos[i]);
     }
+}
+
+void apuestasFutbol(usuario * prueba){
+    int aux = 32 + 10 * 0.3;
+    HashMap *mapDeportes = createMap(aux);
+    //printf("HOLA");
+    importarFutbol(mapDeportes);
+    deportes *d = firstMap(mapDeportes);
+    /*while(d != NULL){
+        printf("| %20s | %15s | %16.2f |\n", d->nombre, d->pais, d->multiplicador);
+        d = nextMap(mapDeportes);
+    }*/
+    encuentrosFutbol(mapDeportes, prueba);
+}
+
+void importarFutbol(HashMap * mapDeportes){
+    //printf("HOLA");
+    FILE* archivo;
+    archivo = fopen("Futbol.csv","r");
+    if(archivo == NULL){
+        printf("El archivo no se abrio correctamente\n");
+        return 1;
+    }
+    int i = 0 ;
+    char line[50];
+    deportes *datos = createDeportes();
+    while(fgets(line,50,archivo) != NULL){
+        datos[i].nombre = (char *)get_csv_field(line,0);
+        datos[i].pais = (char *)get_csv_field(line,1);
+        datos[i].multiplicador = atof(get_csv_field(line,2));
+        datos[i].clave = i+1;
+        //printf("%s\n",datos[i].nombre);
+        //printf("%i\n",datos[i].clave);
+        i++;
+    }
+
+    int cont = i;
+    //printf("contador: %i\n",cont);
+    for(i=0 ; i < cont ; i++){
+       // printf("%i\n",i);
+        insertMap(mapDeportes,&datos[i].clave,&datos[i]);
+    }
+}
+
+void encuentrosFutbol(HashMap * mapDeportes, usuario * prueba){
+    int sorteo,sorteo1;
+    int cont = 0;
+    int aux= 32;
+    deportes* escogido = createDeportes();
+    printf("HOLA");
+    srand(time(NULL));
+    while(cont < 16){
+
+        sorteo = rand () % aux + 1; // 8
+        sorteo1 = rand () % aux + 1; // 1
+
+
+        if(sorteo == sorteo1){
+                sorteo = rand () % aux + 1; // 8
+                sorteo1 = rand () % aux + 1; // 1
+        }
+
+        while(searchMap(mapDeportes,&sorteo) == NULL){
+                sorteo = rand () % aux + 1;
+        }
+
+        while(searchMap(mapDeportes,&sorteo1) == NULL){
+                sorteo1 = rand() % aux + 1;
+        }
+
+        if(sorteo != sorteo1){
+            int respuesta= 0;
+            deportes *d = searchMap(mapDeportes, &sorteo); // le da los datos del 1
+            deportes *x = searchMap(mapDeportes, &sorteo1); // le da los datos del 8
+            eraseMap(mapDeportes, &sorteo1);
+            eraseMap(mapDeportes, &sorteo);
+            insertMap(mapDeportes, &d->nombre, &d);
+            insertMap(mapDeportes, &x->nombre, &x);
+            printf("| %s | %s | x%.2f | vs | %s | %s | x%.2f |\n",d->pais,d->nombre,d->multiplicador,x->pais,x->nombre,x->multiplicador);
+            printf("¿DESEA APOSTAR POR ESTE ENCUENTRO?\n");
+            printf("Presione 1, si esque desea apostar\n");
+            printf("Presione 2, para pasar al siguiente encuentro\n");
+            scanf("%i",&respuesta);
+            if(respuesta == 1){
+                deportes* apostado = createDeportes();
+                printf("SELECCIONE A UN EQUIPO(POR NOMBRE): ");
+                scanf("%[^\n]",apostado->nombre);
+                fflush(stdin);
+                escogerApuesta(prueba, d, x, apostado);
+            }
+            cont++;
+        }
+        printf("Este es el contador: %i", cont);
+    }
+
+    printf("Este es tu saldo actual: %lu CLP\n", prueba->tarjeta->saldo);
+    printf("Esto es lo que ganaste: %lu CLP\n", prueba->tarjeta->ganancias);
+    printf("Esto es lo que perdiste: %lu CLP\n", prueba->tarjeta->perdidas);
 }

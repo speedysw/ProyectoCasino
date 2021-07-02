@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1624850194 source:f:\auniversidad\fundamentos programacion\blakjack\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 f:\auniversidad\fundamentos programacion\blakjack\hashmap.h
+
+1625186393 source:f:\auniversidad\fundamentos programacion\blakjack\main.c
+	<stdio.h>
+	<stdlib.h>
+	"hashmap.h"
+	<stdbool.h>
+

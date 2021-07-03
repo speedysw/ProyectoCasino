@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1620273607 source:c:\users\felipe\documents\xd\teadivinocarta\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 c:\users\felipe\documents\xd\teadivinocarta\hashmap.h
+
+1625341163 source:c:\users\felipe\documents\xd\teadivinocarta\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"hashmap.h"
+

@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1624470445 source:c:\users\felipe\documents\xd\dados\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<windows.h>
+
+1625264518 source:c:\users\dylan\documents\github\proyectocasino\craps\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<windows.h>
+
+1625264905 source:c:\users\felipe\desktop\subida nueva\craps_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<windows.h>
+

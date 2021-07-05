@@ -1,0 +1,18 @@
+Instrucciones "Craps"
+
+Este juego consiste en lo siguiente:
+
+El jugador primero debera elegir entre dos opciones:
+
+1. Apostar a acertar la suma de ambos dados:
+	-Esta opcion consiste en adivinar cual sera la suma entre ambos dados, es decir al momento de lanzar los dos dados que valor
+	dara la suma entre estos.
+
+2. Apostar a acertar el numero de un dado:
+	-Esta opcion consiste en adivinar cual sera el resultado de un dado.
+
+Si nuestra opcion escogida esta correcta, nuestra apuesta se multiplicara por dos.
+
+Mucha suerte!!
+
+

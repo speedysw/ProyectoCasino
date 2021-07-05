@@ -1,0 +1,17 @@
+Instrucciones "Keno"
+
+Este juego consiste en lo siguiente:
+
+El jugador lo primero que tendra que hacer al ingresar a este juego es ingresar la cantidad de dinero que quiere apostar, luego de esto
+tendra que seleccionar la cantidad de numeros que desea apostar (entre 1 y 20), cuando haya seleccionado esto, el juego le dara dos opciones:
+
+1. Escoger numeros automaticamente
+	-Esta opcion le generara numeros aleatorios y en caso de acertar al menos 2 ya tendra ganancias.
+
+2. Escoger numeros manualmente
+	-Esta opcion le dejara al usuario escoger entre los numeros que el creera que saldran.
+	-Los numeros que se pueden apostar son del 1 al 80.
+
+Finalmente los numeros que fueron acertados, se veran en rojo y los que no se acertaron, se veran en blanco.
+
+Mucha suerte!!

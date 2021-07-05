@@ -1,0 +1,13 @@
+Instrucciones "Ruleta"
+
+Este juego consiste en lo siguiente:
+
+El jugador debe elegir el monto de su apuesta, luego de esto el jugador debera elegir entre 5 opciones las cuales son:
+
+1: Esta opcion te multiplica tu apuesta x1.
+2: Esta opcion te multiplica tu apuesta x2.
+5: Esta opcion te multiplica tu apuesta x5.
+10: Esta opcion te multiplica tu apuesta x10.
+Bonus 99: Esta opcion te multiplica tu apuesta por un numero random entre 1 y 100.
+
+Mucha suerte!!!

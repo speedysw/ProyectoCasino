@@ -1,0 +1,20 @@
+Version 04.07.2021.16:52:
+Se implementa el Tragamonedas
+
+Version 04.07.2021.17:15:
+Se implementa el Keno
+
+Version 04.07.2021.17:45:
+Se implementa el BlackJack
+
+Version 04.07.2021.18:35:
+Se implementa el Azul y Rojo
+
+Version 04.07.2021.18:50:
+Se implementa la ruleta
+
+Version 04.07.2021.19:00:
+Se implementa el adivina carta
+
+Version 04.07.2021.19:23:
+Se implementa el craps

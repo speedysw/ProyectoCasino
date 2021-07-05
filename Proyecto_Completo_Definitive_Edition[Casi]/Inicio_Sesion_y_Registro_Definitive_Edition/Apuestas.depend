@@ -1,0 +1,265 @@
+# depslib dependency file v1.0
+1623859848 source:c:\users\cesar\desktop\apuestas\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"treemap.h"
+
+1622855996 source:c:\users\cesar\desktop\apuestas\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1622853131 c:\users\cesar\desktop\apuestas\treemap.h
+
+1622855996 source:c:\users\cesar\desktop\proyecto\apuestas\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1622853131 c:\users\cesar\desktop\proyecto\apuestas\treemap.h
+
+1623969596 source:c:\users\cesar\desktop\proyecto\apuestas\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"treemap.h"
+
+1623948577 source:c:\users\cesar\desktop\proyecto\apuestas\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 c:\users\cesar\desktop\proyecto\apuestas\hashmap.h
+
+1623948577 source:c:\users\dylan\downloads\inicio sesion y registro\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 c:\users\dylan\downloads\inicio sesion y registro\hashmap.h
+
+1622855996 source:c:\users\dylan\downloads\inicio sesion y registro\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1622853131 c:\users\dylan\downloads\inicio sesion y registro\treemap.h
+
+1623989479 source:c:\users\dylan\downloads\inicio sesion y registro\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"treemap.h"
+	<windows.h>
+
+1623948578 source:c:\users\dylan\downloads\c\inicio sesion y registro\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1620007016 c:\users\dylan\downloads\c\inicio sesion y registro\hashmap.h
+
+1624227915 source:c:\users\dylan\downloads\c\inicio sesion y registro\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"treemap.h"
+	<windows.h>
+
+1622853132 c:\users\dylan\downloads\c\inicio sesion y registro\treemap.h
+
+1622855998 source:c:\users\dylan\downloads\c\inicio sesion y registro\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1625342642 source:f:\auniversidad\fundamentos programacion\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 f:\auniversidad\fundamentos programacion\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625342642 source:f:\auniversidad\fundamentos programacion\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1625342642 f:\auniversidad\fundamentos programacion\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\treemap.h
+
+1625434827 source:f:\auniversidad\fundamentos programacion\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"treemap.h"
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+
+1625342642 source:c:\users\cesar\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 c:\users\cesar\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625342642 source:c:\users\cesar\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1625342642 c:\users\cesar\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\treemap.h
+
+1625439226 source:c:\users\cesar\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"treemap.h"
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+
+1625342642 source:c:\users\felipe\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 c:\users\felipe\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625440855 source:c:\users\felipe\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"treemap.h"
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+
+1625342642 c:\users\felipe\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\treemap.h
+
+1625342642 source:c:\users\felipe\desktop\proyectocasino-main\inicio_sesion_y_registro_definitive_edition\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1625342642 source:c:\users\cesar\desktop\proyecto_main\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 c:\users\cesar\desktop\proyecto_main\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625473495 source:c:\users\cesar\desktop\proyecto_main\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+
+1625342642 c:\users\cesar\desktop\proyecto_main\inicio_sesion_y_registro_definitive_edition\treemap.h
+
+1625342642 source:c:\users\cesar\desktop\proyecto_main\inicio_sesion_y_registro_definitive_edition\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1625342642 source:f:\auniversidad\fundamentos programacion\proyecto_main\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 f:\auniversidad\fundamentos programacion\proyecto_main\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625342642 source:f:\auniversidad\fundamentos programacion\proyecto_main\inicio_sesion_y_registro_definitive_edition\treemap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"treemap.h"
+
+1625342642 f:\auniversidad\fundamentos programacion\proyecto_main\inicio_sesion_y_registro_definitive_edition\treemap.h
+
+1625515527 source:f:\auniversidad\fundamentos programacion\proyecto_main\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+
+1625342642 source:c:\users\dylan\downloads\proyecto_main\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 c:\users\dylan\downloads\proyecto_main\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625525455 source:c:\users\dylan\downloads\proyecto_main\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+

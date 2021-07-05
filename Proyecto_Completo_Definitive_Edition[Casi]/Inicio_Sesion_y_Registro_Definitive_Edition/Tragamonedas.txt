@@ -1,0 +1,11 @@
+Instrucciones "Tragamonedas"
+
+Este juego consiste en lo siguiente:
+
+Primero el jugador tiene que seleccionar la cantidad de dinero que quiere apostar, luego hacer su tirada. 
+
+Para ganar el jugador tiene que acertar una fila de la tirada es decir que todas las figuras de las tres 
+columnas presentes sean del mismo tipo.
+
+Mucha suerte!!!
+

@@ -1,0 +1,16 @@
+Instrucciones "BlackJack"
+
+Este juego consiste en lo siguiente:
+ 
+El jugador primero tendra que escoger su apuesta, luego de esto tendra que revisar que cartas le tocaron. Dependiendo de esto y de su decision el jugador
+tendra que escoger entre dos opciones:
+
+1. Plantarse : Esta opcion significa no sacar mas cartas y quedarse con la suma de las cartas ya otorgadas por el programa.
+2. Sacar Carta: Esta opcion significa pedir otra carta mas al crupier, si nuestra suma de cartas llega a mas de 21 significa que perdemos.
+
+Luego de seleccionar una de estas opciones queda ver que le toco al crupier, si el crupier sumo mas de 21 nosotros ganamos, si el crupier suma menos que
+nosotros igual ganamos, siempre y cuando nuestra suma no haya sobrepasado los 21. 
+
+Si nuestra suma sobrepasa los 21 nosotros perdimos nuestra apuesta.
+
+Mucha suerte!!

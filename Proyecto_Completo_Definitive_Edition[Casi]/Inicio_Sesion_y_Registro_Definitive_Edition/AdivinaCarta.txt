@@ -1,0 +1,13 @@
+Instrucciones "Adivina la carta"
+
+Este juego consiste en lo siguiente:
+
+El jugador tiene que adivinar una carta de las siguiente:
+
+1. AS DE COPAS
+2. AS DE BASTOS
+3. AS DE OROS
+4. AS DE ESPADAS
+
+Si el jugador logra acertar la carta del programa, entonces su apuesta se le multiplicara por dos.
+Mucha Suerte!!

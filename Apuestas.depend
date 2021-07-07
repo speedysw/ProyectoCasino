@@ -263,3 +263,45 @@
 	<windows.h>
 	<stdbool.h>
 
+1625342642 source:c:\users\cesar\desktop\proyecto_completo_definitive_edition[casi]\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 c:\users\cesar\desktop\proyecto_completo_definitive_edition[casi]\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625527382 source:c:\users\cesar\desktop\proyecto_completo_definitive_edition[casi]\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+
+1625342642 source:c:\users\dylan\downloads\proyecto_completo_definitive_edition[casi]\inicio_sesion_y_registro_definitive_edition\hashmap.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	"hashmap.h"
+
+1625342642 c:\users\dylan\downloads\proyecto_completo_definitive_edition[casi]\inicio_sesion_y_registro_definitive_edition\hashmap.h
+
+1625613156 source:c:\users\dylan\downloads\proyecto_completo_definitive_edition[casi]\inicio_sesion_y_registro_definitive_edition\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
+	"hashmap.h"
+	<windows.h>
+	<stdbool.h>
+

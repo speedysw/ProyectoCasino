@@ -47,14 +47,14 @@ typedef struct{
     int clave;
 }deportes;
 
-deportes *createDeportes(){
+deportes *createDeportes(){ // Funcion para asignarle memoria dinamica a la struc
     deportes *aux = (deportes *) malloc(sizeof(deportes)*40);
     aux->nombre = (char *) malloc(sizeof(char) * 25);
     aux->pais = (char *) malloc(sizeof(char) * 15);
     return aux;
 }
 
-usuario *createLogin() {
+usuario *createLogin() { // Funcion para signarle memoria dinamica al a struct
     usuario *aux = (usuario *) malloc(sizeof(usuario)*100);
     aux->nombre = (char *) malloc(sizeof(char) * 20);
     aux->apellido = (char *) malloc(sizeof(char) * 20);
@@ -70,7 +70,7 @@ typedef struct {
     char *pinta;
 } Baraja;
 
-void *createBaraja() {
+void *createBaraja() { // funcion para asignarle memoria dinamica a la struct
     Baraja *baraja = (Baraja *) malloc(sizeof(Baraja));
     baraja->pinta = (char *) malloc(sizeof(char)* 8);
     return baraja;
@@ -92,7 +92,7 @@ void infoBlackJack(FILE *);
 void infoKeno(FILE *);
 void infoTragaMonedas(FILE *);
 int seguridad(usuario *);
-void basedatos(usuario *);
+void respaldo(usuario *);
 void exportar(HashMap *, usuario *);
 const char *get_csv_field (char *, int);
 void importar(HashMap *, usuario *);
@@ -293,11 +293,13 @@ void menu(){
     }while(terminar_programa != 1);
 }
 
+// En esta funcion el jugador se va a registrar en la aplicación
 void registrarse(HashMap * cuentas){
     system("cls");
-    usuario* login = createLogin(login);
-    char* aux = (char *) malloc(sizeof(char) * 20);
-    int comprobar=0;
+    usuario* login = createLogin(login); // Se crea el vector donde estara el usuario
+    char* aux = (char *) malloc(sizeof(char) * 20); // Se declara una variable de tipo char aux que nos servira para comparar las contraseñas
+    int comprobar=0; // Esta variable se usara para salir del int
+    // Se escanean los datos que se le van pidiendo en pantalla al usuario
     printf("--------------------REGISTRO--------------------\n");
     printf("BIENVENIDOS AL CASINO, REGISTRESE PARA CONTINUAR \n");
     printf("Nombre: ");
@@ -309,42 +311,44 @@ void registrarse(HashMap * cuentas){
     printf("Nombre de usuario: ");
     scanf("%s",login->id);
     fflush(stdin);
-    basedatos(login);
+    respaldo(login); // En esta funcion se comprubea si el nombre de usuario se encuentra disponible o no
     do{
         printf("Ejemplo: 4678 9845 0923 XXXX \n");
         printf("Inserte tarjeta de credito: ");
         scanf("%[^\n]",login->tarjeta->numero);
         fflush(stdin);
-        int x = strlen(login->tarjeta->numero);
+        int x = strlen(login->tarjeta->numero); // Se saca el largo de la variable login->tarjeta->numero para comprobar si la tarjeta es valida o no
         if(x < 19 || x > 19) printf("TARJETA INVALIDA\n");
         if(x == 19){
-         comprobar = 1;
+         comprobar = 1; // si es valida saldra del while
         }
-        login->tarjeta->saldoT = 1000000;
-        login->tarjeta->saldoJ = 0;
+        // se le asignan un valor fijo al saldo total de la tarjeta y al saldo de juego
+        login->tarjeta->saldoT = 1000000; // saldo total
+        login->tarjeta->saldoJ = 0; // saldo juego
     }while(comprobar == 0);
 
     do{
         comprobar = 0;
         printf("Contrasena: ");
-        login->password = contrasena();
+        login->password = contrasena(); // la funcion contrasena se encarga de ponerle **** a la password
         printf("\n");
 
-        printf("Confirmar contraseña: ");
+        printf("Confirmar contrasena: ");
         aux = contrasena();
         printf("\n");
 
-        if(strcmp(login->password,aux) == 0){
-            comprobar = seguridad(login);
-            aux = login->password;
+        if(strcmp(login->password,aux) == 0){ // si las contraseñas son iguales entrara a este if para comprobar su seguridad
+            comprobar = seguridad(login); // la funcion seguridad retornara 1 si la contraseña cumple con los requisitos de seguridad
+            aux = login->password; //se guarda el valor de la llave
         }
 
-        if(strcmp(login->password,aux) != 0) printf("LAS CONTRASEÑAS NO COINCIDEN INTENTELO DENUEVO\n");
+        if(strcmp(login->password,aux) != 0) printf("LAS CONTRASEÑAS NO COINCIDEN INTENTELO DENUEVO\n"); // si no coninciden las contras se repitira el proceso de la contraseña
 
     }while(comprobar == 0);
     system("cls");
+    // aca se comprueba nuevamente si la contraseña con el aux coinciden
     if(strcmp(login->password,aux) == 0){
-        printf("Sr. %s %s fue registrado con exito en nuestra aplicacion, su cuenta es la siguiente: \n", login->nombre, login->apellido);
+        printf("%s %s fue registrado con exito en nuestra aplicacion, su cuenta es la siguiente: \n", login->nombre, login->apellido);
         printf("Nombre de usuario de la cuenta: %s\n", login->id);
         printf("Clave de la cuenta: %s\n", login->password);
         printf("Tarjeta de credito: ");
@@ -355,21 +359,22 @@ void registrarse(HashMap * cuentas){
         printf("Este es el saldo de su tarjeta: %lu\n", login->tarjeta->saldoT);
         printf("BIENVENIDO AL CASINO TIME LIMTID EXCEEDED EDITION!!\n");
     }
-    insertMap(cuentas, login->id, login);
-    exportar(cuentas, login);
+    insertMap(cuentas, login->id, login); // se inserta en el mapa cuentas el usuario con key = nombre de usuario;
+    exportar(cuentas, login); // se manda a la funcion exportar para que se genere un archivo con el usuario
     system("pause");
     system("cls");
 
 }
-
+// Funcion donde se exporta el usuario
 void exportar(HashMap * cuentas, usuario * login){
     FILE *datos;
-    char nombreArchivo[23];
-    snprintf(nombreArchivo, sizeof(nombreArchivo), "%s%s", login->id, ".csv");
+    char nombreArchivo[23]; // Se asigna una variable char que se le dara el nombre de usuario
+    snprintf(nombreArchivo, sizeof(nombreArchivo), "%s%s", login->id, ".csv"); // se crea el archivo con el nombre de usuario del jugador
 
-    datos = fopen(nombreArchivo,"w");
+    datos = fopen(nombreArchivo,"w"); // se abre el archivo
 
-    usuario *d = (usuario *) malloc(sizeof(usuario)* 1);
+    usuario *d = (usuario *) malloc(sizeof(usuario)* 1); // se genera un vector de tipo usuario
+    // se recorre el mapa y se va insertando en el archivo
     d = firstMap(cuentas);
     char line[100];
     while(d != NULL){
@@ -377,25 +382,28 @@ void exportar(HashMap * cuentas, usuario * login){
         fputs(line, datos);
         d = nextMap(cuentas);
     }
-    fclose(datos);
+    fclose(datos); // cuando se inserte todo en el archivo, se cerrara dicho archivo.
 }
 
+// Funcion para iniciar sesion del usuario
 void iniciarSesion(HashMap * cuentas){
     system("cls");
+    // se crea dos variables de tipo usuarios que nos serviran para comparar en el ingreso de sesion
     usuario * aux = createLogin(aux);
     usuario * aux2 = createLogin(aux2);
     printf("--------------------INICIO DE SESION--------------------\n");
     printf("BIENVENIDO DEVUELTA AL TIME LIMITD EXCEEDED\n");
     printf("Nombre de usuario: ");
     scanf("%s", aux->id);
-    strcpy(aux2->id,aux->id);
+    strcpy(aux2->id,aux->id); // se copia el nombre de usuario en el segundo aux2
     fflush(stdin);
     printf("Contraseña: ");
-    aux2->password = contrasena();
+    aux2->password = contrasena(); // se escribe la contraseña de la cuenta con **
     printf("\n");
-    importar(cuentas,aux);
-    aux = searchMap(cuentas, aux2->id);
+    importar(cuentas,aux); // se importa un archivo.csv con el nombre de usuario
+    aux = searchMap(cuentas, aux2->id); // si al aux se le asigna el valor del mapa significa que se leyo el archivo con exito
 
+    // Si la contraseña no coinciden se entrara en su if y se repetira todo el proceso, en caso contrario el usuario habra ingresado a la aplicacion
     if(strcmp(aux->id,aux2->id) == 0 && strcmp(aux->password,aux2->password) == 0) printf("EL USUARIO HA INGRESADO CON EXITO, BIEN\n");
     if(strcmp(aux->id,aux2->id) != 0 || strcmp(aux->password,aux2->password) != 0){
         printf("Ups, el usuario o la contraseña no coinciden, vuelve a intentarlo\n");
@@ -405,10 +413,14 @@ void iniciarSesion(HashMap * cuentas){
     system("pause");
     system("cls");
 
-    menuIniciarSesion(aux);
+    menuIniciarSesion(aux); // te manda al menu del casino
 }
 
 int seguridad(usuario * login){
+   /* En esta funcion se comprueba si la contraseña es segura o no mediante la cantidad de caracteres que
+   esta contenga, si es segura se retorna un 1 para que en la funcion donde se llame pueda salir de su ciclo
+   repetitivo con exito*/
+
     int x = strlen(login->password);
     char* aux = (char *) malloc(sizeof(char) * 20);
     int comprobante = 0;
@@ -431,18 +443,20 @@ int seguridad(usuario * login){
     return 1;
 }
 
+// Funcion donde se importa el usuario creado por el jugador
 void importar(HashMap* cuentas, usuario* lectura){
     FILE* archivo;
-    char nombreArchivo[23];
-    snprintf(nombreArchivo, sizeof(nombreArchivo), "%s%s", lectura->id, ".csv");
-    archivo = fopen(nombreArchivo,"r");
-    if(archivo == NULL){
+    char nombreArchivo[23]; // Al igual que en el exportar se crea una variable char que nos servira para abrir el archivo
+    snprintf(nombreArchivo, sizeof(nombreArchivo), "%s%s", lectura->id, ".csv"); // se le asigna a la variable char el nombre del archivo
+    archivo = fopen(nombreArchivo,"r"); // se abre el archivo
+    if(archivo == NULL){ // si el archivo no existe mandara un mensaje en pantalla y se mandara al menu principal de la aplicación
         printf("Ups, el usuario o la contraseña no coinciden, vuelve a intentarlo\n");
         system("pause");
         menu();
         exit(EXIT_SUCCESS);
     }
 
+    // en este ciclo while se lee el archivo con linea
     char line[100];
     while(fgets(line,100,archivo) != NULL){
         lectura->nombre = (char *)get_csv_field(line,0);
@@ -453,12 +467,9 @@ void importar(HashMap* cuentas, usuario* lectura){
         lectura->tarjeta->saldoJ = atoi(get_csv_field(line,5));
         lectura->password = (char *) get_csv_field(line,6);
     }
+    // se inserta en el mapa cuenta los datos del archivo con key = nombre de usuario
     insertMap(cuentas, lectura->id, lectura);
     usuario * d = firstMap(cuentas);
-    while(d!= NULL){
-        printf("%s,%s,%s,%s,%lu,%lu,%s\n",d->nombre,d->apellido,d->id,d->tarjeta->numero, d->tarjeta->saldoT,d->tarjeta->saldoJ,d->password);
-        d = nextMap(cuentas);
-    }
 }
 
 const char *get_csv_field (char * tmp, int k){ //Función para leer distintos datos del archivo.
@@ -494,25 +505,29 @@ const char *get_csv_field (char * tmp, int k){ //Función para leer distintos dat
     return NULL;
 }
 
-void basedatos(usuario * login){
+// Esta funcion se encarga de comprobar si un nombre de usuario se encuentra disponible o no
+void respaldo(usuario * login){
     FILE *Datos;
+    // se hace el mismo proceso que en el importar y exportar en el nombre de archivo
     char nombreArchivo[23];
     snprintf(nombreArchivo, sizeof(nombreArchivo), "%s%s", login->id, ".csv");
-    Datos = fopen(nombreArchivo,"r");
+    Datos = fopen(nombreArchivo,"r"); // se abre el archivo
+    //si el archivo no existe significa que el nombre de usuario esta disponible, de lo contrario esta ocupado
     if(Datos == NULL){
         printf("El nombre de usuario no existe\n");
     }
     if(Datos != NULL){
+        // Si el nombre de usuario no esta disponible, el usuario tendra que escoger otro
         printf("Nombre de usuario no disponible, seleccione otro porfavor\n");
         printf("Nombre de usuario: ");
         scanf("%s", login->id);
         fflush(stdin);
-        basedatos(login);
+        respaldo(login);
     }
     //fclose(Datos);
     //free(Datos);
 }
-
+// esta funcion dependiendo de la opcion leera distintos archivos de texto
 void instrucciones(){
     system("cls");
     FILE *lectura;
@@ -662,6 +677,7 @@ void instrucciones(){
 
 }
 
+// De las funciones infoCraps a infoRojoAzul se lee un archivo de texto
 void infoCraps(FILE *lectura){ //Info craps
     system("cls");
     tituloCraps();
@@ -789,6 +805,7 @@ void infoRojoAzul(FILE *lectura){
     fclose(lectura);
 }
 
+// funcion para la interfaz del programa
 void gotoxy(int x , int y){
 
 HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -801,6 +818,7 @@ SetConsoleCursorPosition(consola,pos);
 
 }
 
+// Funcion que te dejara ingresar a las distintas opciones del casino
 void menuIniciarSesion(usuario *cuenta) {
     system("cls");
 
@@ -891,10 +909,13 @@ void menuIniciarSesion(usuario *cuenta) {
     system("cls");
 }
 
+/* funcion que cumple el mismo proposito que el exportar anteriormente explicado, pero
+este nos servira para guardar el proceso del jugador en la aplicacion
+(se sobreeescribe el archivo anteriormente guardado)*/
 void exportar2(usuario * login){
+    // El mismo procedimiento que en el anterior exportar, con la diferencia de que aqui solo se mandara al tipo de dato usuario y se crea el mismo mapa cuentas
     HashMap* cuenta = createMap(4);
     insertMap(cuenta,login->id,login);
-    printf("nombre de la cuenta osea de usuario de la cuenta sisi aegg %s \n",login->id);
     FILE *datos;
     char nombreArchivo[23];
     snprintf(nombreArchivo, sizeof(nombreArchivo), "%s%s", login->id, ".csv");
@@ -912,15 +933,23 @@ void exportar2(usuario * login){
     fclose(datos);
 }
 
+// En esta funcion el usuario puede ingresar el dinero de la aplicacion a su tarjeta de credito
 void ingresarSaldo(usuario* cuenta){
     system("cls");
     printf("SALDO ACTUAL EN LA APLICACION: %lu\n",cuenta->tarjeta->saldoJ);
     printf("SALDO EN LA TARJETA DE CREDITO: %lu\n", cuenta->tarjeta->saldoT);
-    printf("INDIQUE LA CANTIDAD DE SALDO QUE QUIERE RETIRAR HACIA SU TARJETA DE CREDITO\n");
+    printf("INDIQUE LA CANTIDAD DE SALDO QUE QUIERE RETIRAR HACIA SU TARJETA DE CREDITO / SI NO TIENE SALDO INGRESE 0\n");
     unsigned long saldo;
+    // Este ciclo while es para que corresponda el saldo retirado con el de la aplicacion
     do{
-        scanf("%i",&saldo);
-        if(cuenta->tarjeta->saldoJ < saldo) printf("El saldo que indico excede al saldo que tiene en su tarjeta de credito\n");
+        gotoxy(0,3);scanf("%i",&saldo);
+        if(cuenta->tarjeta->saldoJ < saldo){
+            printf("El saldo que indico excede al saldo que tiene en su tarjeta de credito\n");
+            system("pause");
+            gotoxy(0,4);printf("                                                                       ");
+            gotoxy(0,3);printf("                                                                      ");
+            gotoxy(0,5);printf("                                                                      ");
+        }
     }while(cuenta->tarjeta->saldoJ < saldo);
 
     cuenta->tarjeta->saldoJ = cuenta->tarjeta->saldoJ - saldo;
@@ -984,15 +1013,24 @@ void ingresarSaldo(usuario* cuenta){
     }
 }
 
+// En esta funcion el usuario puede ingresar el dinero de su tarjeta de credito a la aplicacion
 void retirarSaldo(usuario *cuenta){
     system("cls");
     printf("SALDO DISPONIBLE EN SU TARJETA DE CREDITO: %lu\n", cuenta->tarjeta->saldoT);
     printf("SALDO ACTUAL EN LA APLICACION: %lu\n", cuenta->tarjeta->saldoJ);
-    printf("INDIQUE EL NUMERO DE SALDO A RETIRAR DE SU TARJETA DE CREDITO\n");
+    printf("INDIQUE EL NUMERO DE SALDO A RETIRAR DE SU TARJETA DE CREDITO / SI NO TIENE SALDO INGRESE 0\n");
     unsigned long saldo;
+    // Este ciclo while es para que corresponda el saldo ingresado a la aplicacion con el de la tarjeta
     do{
-        scanf("%i",&saldo);
-        if(cuenta->tarjeta->saldoT < saldo) printf("El saldo que indico excede al saldo que tiene en su tarjeta de credito\n");
+        gotoxy(0,3);scanf("%i",&saldo);
+        if(cuenta->tarjeta->saldoT < saldo){
+            printf("El saldo que indico excede al saldo que tiene en su tarjeta de credito\n");
+            system("pause");
+            gotoxy(0,4);printf("                                                                       ");
+            gotoxy(0,3);printf("                                                                      ");
+            gotoxy(0,5);printf("                                                                      ");
+
+        }
     }while(cuenta->tarjeta->saldoT < saldo);
 
     cuenta->tarjeta->saldoJ = cuenta->tarjeta->saldoJ + saldo;
@@ -1057,6 +1095,7 @@ void retirarSaldo(usuario *cuenta){
     }
 }
 
+//menu de las apuestas deportivas
 void apuestas(usuario *cuenta){
     system("cls");
     int a = 1;
@@ -1150,19 +1189,30 @@ void apuestas(usuario *cuenta){
     }
 }
 
+// COMIENZO DE LAS FUNCIOENS DE LA CASA DE APUESTA
+
+//Funcion que genera la apuesta de tennis
 void apuestasTennis(usuario * cuenta){
-    int aux = 10 + 10 * 0.3;
-    HashMap *mapDeportes = createMap(aux);
-    importarATP(mapDeportes);
-    deportes *d = firstMap(mapDeportes);
+    int aux = 10 + 10 * 0.3; // este valor siempre es fijo
+    HashMap *mapDeportes = createMap(aux); // se crea un mapa con el espacio del aux
+    importarATP(mapDeportes); // se importan los datos de un archivo.csv
+    /*deportes *d = firstMap(mapDeportes);
     while(d != NULL){
         printf("| %20s | %15s | %16.2f |\n", d->nombre, d->pais, d->multiplicador);
     d = nextMap(mapDeportes);
-    }
-    encuentrosATP(mapDeportes, cuenta);
+    }*/
+    encuentrosATP(mapDeportes, cuenta); // aqui se van generando los encuentros de tennis, mediante los datos leidos del archivo
 }
 
+// Funcion que genera los encuentros de las apuestas
 void encuentrosATP(HashMap* mapDeportes, usuario * cuenta){
+    /* En esta funcion se crean dos variables int llamadas "sorteo" y "sorteo1" que iran sorteando mediante un random
+    numeros del 1 al valor del aux, estos valores se buscaran en el mapa Deportes ya que este contendra a los tenistas
+    luego de encontrar los valores del mapa deportes, se cambiara la key (primera key sera el numero de ingreso al mapa y
+    la segunda llave corresponde al nombre del tenista, esto con el fin de que no se puedan repetir los tenistas)
+    despues de realizar esto se mostraran los encuentros uno por uno, despues de que se genera un encuentro
+    el usuario tendra tres opciones, apostar, pasar al siguiente encuentro y volver al menu de las apuestas */
+
     system("cls");
     int sorteo,sorteo1;
     int cont = 0;
@@ -1176,16 +1226,17 @@ void encuentrosATP(HashMap* mapDeportes, usuario * cuenta){
                 sorteo = rand () % aux + 1; // 8
                 sorteo1 = rand () % aux + 1; // 1
         }
-        while(searchMap(mapDeportes,&sorteo) == NULL){
+        while(searchMap(mapDeportes,&sorteo) == NULL){ // Si no se encuentra nada en el mapa el random soltara otro numero
                 sorteo = rand () % aux + 1;
         }
         while(searchMap(mapDeportes,&sorteo1) == NULL){
                 sorteo1 = rand() % aux + 1;
         }
-        if(sorteo != sorteo1){
+        if(sorteo != sorteo1){ // para los encuentros ambas variables tienen que ser distintas para que no se enfrente el mismo tenista con el mismo
             int respuesta;
-            deportes *d = searchMap(mapDeportes, &sorteo); // le da los datos del 1
-            deportes *x = searchMap(mapDeportes, &sorteo1); // le da los datos del 8
+            // aqui se realiza el cambio de llave y la busqueda en el mapa
+            deportes *d = searchMap(mapDeportes, &sorteo);
+            deportes *x = searchMap(mapDeportes, &sorteo1);
             eraseMap(mapDeportes, &sorteo1);
             eraseMap(mapDeportes, &sorteo);
             insertMap(mapDeportes, &d->nombre, &d);
@@ -1264,7 +1315,7 @@ void encuentrosATP(HashMap* mapDeportes, usuario * cuenta){
                 }
             }while(terminar_programa != 1);
 
-            if(respuesta == 1){
+            if(respuesta == 1){ // en este if el usuario podra escoger a quien apostarle
                 deportes* escogido = createDeportes();
                 flag1=0,terminar_programa=0;
 
@@ -1309,14 +1360,15 @@ void encuentrosATP(HashMap* mapDeportes, usuario * cuenta){
                         case 1: escogido->nombre = x->nombre; terminar_programa=1; break;
                     }
                 }while(terminar_programa != 1);
-                escogerApuesta(cuenta,d,x,escogido);
+                escogerApuesta(cuenta,d,x,escogido); // en esta funcion se hace el proceso de apuesta
             }
-            if(respuesta == 3) break;
+            if(respuesta == 3) break; // aqui termina el ciclo y se vuelve al menu del casino
             cont++;
         }
     }
     system("cls");
-    printf("Este es tu saldo actual: %lu CLP\n", cuenta->tarjeta->saldoJ);
+    printf("Este es tu saldo actual: %lu CLP\n", cuenta->tarjeta->saldoJ); // se muestra el saldo despues de realizar las apuestas
+    // Lo que continua con el codigo tiene que ver si esque desea generar nuevamente encuentros desde el comienzo (repitiendo todo el ciclo) o volver al menu de apuestas
     int respuesta;
     int pos,end,flag1=0,terminar_programa=0;
     char keyMenu;
@@ -1371,13 +1423,15 @@ void encuentrosATP(HashMap* mapDeportes, usuario * cuenta){
     }
 }
 
+// Se importan los datos de las apuestas de Tenis
 void importarATP(HashMap *mapDeportes){
     FILE* archivo;
     archivo = fopen("ATP.csv","r");
-    if(archivo == NULL){
+    if(archivo == NULL){ // Comprobacion por si el archivo no se encuentra
         printf("El archivo no se abrio correctamente\n");
         return exit(1);
     }
+    // Se importa de la misma manera que la funcion importar explicada anteriormente
     int i = 0 ;
     char line[40];
     deportes *datos = createDeportes();
@@ -1389,37 +1443,42 @@ void importarATP(HashMap *mapDeportes){
         datos[i].clave = i + 1;
         i++;
     }
+    // Se va insertando lso valores del archivo en el mapaDeportes
     int cont = i;
     for(i=0 ; i < cont ; i++){
         insertMap(mapDeportes,&datos[i].clave,&datos[i]);
     }
 }
 
+// Esta funcion realiza el mismo procedimiento que apuestasATP, genera las apuestas de Formula 1
 void apuestasFormula1(usuario * cuenta){
-    int aux = 12 + 10 * 0.3;
-    HashMap *mapDeportes = createMap(aux);
-    importarFormula(mapDeportes);
+    int aux = 12 + 10 * 0.3; // valor siempre fijo
+    HashMap *mapDeportes = createMap(aux); // se crea nuevamente un mapa
+    importarFormula(mapDeportes); // se importan los datos correspondiente del deportes mediante un archivo.csv
     deportes *d = firstMap(mapDeportes);
     while(d != NULL){
         printf("| %20s | %15s | %16.2f |\n", d->nombre, d->pais, d->multiplicador);
     d = nextMap(mapDeportes);
     }
-    encuentrosF1(mapDeportes, cuenta);
+    encuentrosF1(mapDeportes, cuenta); // se generan las carreras de F1
 }
-
+// En esta funcion se genera los encuentros y se apuesta
 void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
     system("cls");
     int piloto;
     unsigned long apuesta;
+    // se recorre el mapa para mostrar a todos los pilotos de la carrera
     deportes *d = firstMap(mapDeportes);
     printf("|                               FORMULA 1: GRAN PREMIO DE FRANCIA                             |\n");
     printf("-----------------------------------------------------------------------------------------------\n");
     printf("|                     |         PILOTO       |    ESCUADRA     |   DORSAL  |   MULTIPLICADOR  |\n");
     printf("-----------------------------------------------------------------------------------------------\n");
+    //
     while(d != NULL){
         printf("| Clasificacion: %4d | %20s | %15s | %9i | %16.2f |\n",d->clave, d->nombre, d->pais, d->ranking, d->multiplicador);
         d = nextMap(mapDeportes);
     }
+    // Aqui se decide si el usuario desea apostar o no
     int respuesta;
     printf("-----------------------------------------------------------------------------------------------");
     system("color");
@@ -1466,7 +1525,7 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
                 case 1: respuesta = 2; terminar_programa=1; break;
             }
     }while(terminar_programa != 1);
-
+    // Si el usuario apuesta podra seleccionar a su piloto y apostarle un dicho monto
     if(respuesta == 1){
         flag1=0,terminar_programa=0;
 
@@ -1683,10 +1742,11 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
         }while(terminar_programa != 1);
 
         system("cls");
+        // se busca en el mapa si el piloto escogido existe
         deportes* aux = searchMap(mapDeportes, &piloto);
         printf("PILOTO ESCOGIDO: %s\n", aux->nombre);
 
-
+        // En esta fraccion del codigo se selecciona el monto de la apuesta
         int pos,end,flag1=0,terminar_programa=0;
         char key;
 
@@ -1788,6 +1848,7 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
             }
         }while(terminar_programa != 1);
 
+        // En este if se comprubea si el saldo es ineficiente o no
         if(cuenta->tarjeta->saldoJ < apuesta){
             int seleccion;
             system("cls");
@@ -1807,7 +1868,7 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
                 exit(EXIT_SUCCESS);
             }
         }
-
+        // Si el saldo es suficiente se le restara la apuesta al saldo de juego y se genera los resultados de la carrera mediante un random
         system("cls");
         printf("Realizaste una apuesta de %lu CLP por %s \n", apuesta, aux->nombre);
         cuenta->tarjeta->saldoJ -= apuesta;
@@ -1821,15 +1882,15 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
         printf(" -------------------------------------------------------------------------------------------\n");
 
         int i = 0;
-        HashMap* Ganadores = createMap(4);
+        HashMap* Ganadores = createMap(4); // En este mapa se inserta la primera posicion de la carrera
         while(cont < 11){
             int posicion = rand() % 11 + 1;
             //printf("esta es la posicon %i\n", posicion);
 
-            while(searchMap(mapDeportes,&posicion) == NULL){
+            while(searchMap(mapDeportes,&posicion) == NULL){ // Si el mapa esta vacio generara otro numero
                     posicion = rand () % 11 + 1;
             }
-
+            // se busca en el mapa y se muestra al piloto por pantalla
             deportes *ubicacion = searchMap(mapDeportes, &posicion);
             if(ubicacion != NULL){
                 posicion = i + 1;
@@ -1837,17 +1898,17 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
                 i++;
             }
 
-            if(posicion == 1){
+            if(posicion == 1){ // el primer lugar se guarda en el mapa
                 insertMap(Ganadores, &posicion, ubicacion);
             }
 
-            eraseMap(mapDeportes, &ubicacion->clave);
+            eraseMap(mapDeportes, &ubicacion->clave); // se elimina la clave para que no se repita los pilotos
             cont++;
         }
         printf(" -------------------------------------------------------------------------------------------\n");
         printf("                                RESULTADOS DE LA APUESTA                                    \n");
-        deportes* ganador = firstMap(Ganadores);
-
+        deportes* ganador = firstMap(Ganadores); // se crea una variable deportes que se encarga de comparar al apostado con el ganador
+        // si el ganador y el aux coinciden significa que el usuario gano la apuesta, de lo contrario perdio
         if(strcmp(ganador->nombre, aux->nombre) == 0){
             printf("Ganador de la carrera: %s\n", ganador->nombre);
             printf("Ganaste la apuesta\n");
@@ -1864,7 +1925,7 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
 
         printf("Este es tu saldo actual: %llu CLP\n", cuenta->tarjeta->saldoJ);
     }
-
+    // en esta ultima fraccion se seleccionara si el usuario desea volver al menu o generar otra carrera
     flag1=0,terminar_programa=0;
 
     do{
@@ -1919,6 +1980,7 @@ void encuentrosF1(HashMap * mapDeportes, usuario * cuenta){
 
 }
 
+// Esta funcion hace el mismo procedimiento que el importarATP
 void importarFormula(HashMap *mapDeportes){
     FILE* archivo;
     archivo = fopen("Formula1.csv","r");
@@ -1943,19 +2005,28 @@ void importarFormula(HashMap *mapDeportes){
     }
 }
 
+// Funcion que hace el mismo procedimiento de las apuestas anteriores
 void apuestasNBA(usuario * cuenta){
-    int aux = 12 + 10 * 0.3;
-    HashMap *mapDeportes = createMap(aux);
-    importarNBA(mapDeportes);
+    int aux = 12 + 10 * 0.3; // valor fijo
+    HashMap *mapDeportes = createMap(aux); // se crea el archivo
+    importarNBA(mapDeportes); // se importa el archivo.csv
     deportes *d = firstMap(mapDeportes);
     while(d != NULL){
         printf("| %20s | %15s | %16.2f |\n", d->nombre, d->pais, d->multiplicador);
     d = nextMap(mapDeportes);
     }
-    encuentrosNBA(mapDeportes, cuenta);
+    encuentrosNBA(mapDeportes, cuenta); // Se genera el encuentro
 }
 
+// Tiene la misma funcion que el encuentrosATP
 void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
+    /* En esta funcion se crean dos variables int llamadas "sorteo" y "sorteo1" que iran sorteando mediante un random
+    numeros del 1 al valor del aux, estos valores se buscaran en el mapa Deportes ya que este contendra a los tenistas
+    luego de encontrar los valores del mapa deportes, se cambiara la key (primera key sera el numero de ingreso al mapa y
+    la segunda llave corresponde al nombre del equipo, esto con el fin de que no se puedan repetir los equipo)
+    despues de realizar esto se mostraran los encuentros uno por uno, despues de que se genera un encuentro
+    el usuario tendra tres opciones, apostar, pasar al siguiente encuentro y volver al menu de las apuestas */
+
     system("cls");
     int sorteo,sorteo1;
     int cont = 0;
@@ -1968,12 +2039,12 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
         sorteo = rand () % aux + 1; // 8
         sorteo1 = rand () % aux + 1; // 1
 
-
+        // si son iguales se vuelve a sortear los numeros
         if(sorteo == sorteo1){
                 sorteo = rand () % aux + 1; // 8
                 sorteo1 = rand () % aux + 1; // 1
         }
-
+        // se comprueba que los mapas contengan algo
         while(searchMap(mapDeportes,&sorteo) == NULL){
                 sorteo = rand () % aux + 1;
         }
@@ -1982,8 +2053,9 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
                 sorteo1 = rand() % aux + 1;
         }
 
-        if(sorteo != sorteo1){
+        if(sorteo != sorteo1){ // si son diferentes entrara aca
             int respuesta= 0;
+            // cambio de clave
             deportes *d = searchMap(mapDeportes, &sorteo); // le da los datos del 1
             deportes *x = searchMap(mapDeportes, &sorteo1); // le da los datos del 8
             eraseMap(mapDeportes, &sorteo1);
@@ -2010,7 +2082,7 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
             system("color");
             int pos,end,flag1=0,terminar_programa=0;
             char keyMenu;
-
+            // Aca se le pregunta al usuario que desea hacer, si apostar, generar otro encuentro o terminar la apuesta
             do{
             pos = 0;
             end = 0;
@@ -2063,7 +2135,7 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
                     case 2: respuesta = 3; terminar_programa=1; break;
                 }
             }while(terminar_programa != 1);
-
+            // si el usuario escgio apostar, seleccionara al equipo que desea apostarle
             if(respuesta == 1){
                 deportes* apostado = createDeportes();
                 flag1=0,terminar_programa=0;
@@ -2109,10 +2181,10 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
                         case 1: apostado->nombre = x->nombre; terminar_programa=1; break;
                     }
                 }while(terminar_programa != 1);
-                escogerApuesta(cuenta, d, x, apostado);
+                escogerApuesta(cuenta, d, x, apostado); // en esta funcion se hace el procedimiento de la apuesta
             }
 
-            if(respuesta == 3) break;
+            if(respuesta == 3) break; // para volver al menu de las apuestas
             cont++;
         }
     }
@@ -2121,7 +2193,7 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
     int respuesta;
     int pos,end,flag1=0,terminar_programa=0;
     char keyMenu;
-
+    // en esta ultima funcion se le pregunta al usuario si desea generar otra ronda de apuesta o ir al menu de apuestas
     do{
     pos = 0;
     end = 0;
@@ -2172,14 +2244,15 @@ void encuentrosNBA(HashMap *mapDeportes, usuario * cuenta){
     }
 }
 
+// Funcion que hace el procedimiento de las apuestas
 void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, deportes* apostado){
-    int sorteo;
+    int sorteo; // para generar al ganador y perdedor
     unsigned long apuesta;
-
+    // primero se comparara si lo que escogio el usuario, corresponde a los equipo/deportistas del encuentro
     if(strcmp(apostado->nombre,equipo1->nombre) == 0){
         int pos,end,flag1=0,terminar_programa=0;
         char key;
-
+    // el usuario selecciona su monto a apostar
         do{
         pos = 0;
         end = 0;
@@ -2277,7 +2350,7 @@ void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, depor
                 case 5: apuesta = 10000; terminar_programa=1; break;
             }
         }while(terminar_programa != 1);
-
+        // se comprueba de que su saldo sea suficiente para realizar la apuesta, si no es suficiente tendra dos opciones
         if(cuenta->tarjeta->saldoJ < apuesta){
             int seleccion;
             system("cls");
@@ -2297,15 +2370,15 @@ void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, depor
                 exit(EXIT_SUCCESS);
             }
         }
-
+        // aqui se le quita lo que aposto a la cuenta y se muestra lo que aposto y a quien le aposto
         cuenta->tarjeta->saldoJ = cuenta->tarjeta->saldoJ - apuesta;
         system("cls");
         printf("Realizaste una apuesta de %lu CLP por %s \n", apuesta, apostado->nombre);
         system("pause");
         system("cls");
-        sorteo = rand() % 2 + 1;
+        sorteo = rand() % 2 + 1; // aca se genera el ganador o perdedor del encuentro
 
-
+        // si el sorteo es 1 significa que el usuario gano y se le devuelve su dinero y la recompensa de la apuesta
         if(sorteo == 1){
             unsigned long premio = apuesta * equipo1->multiplicador;
             system("cls");
@@ -2315,7 +2388,7 @@ void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, depor
             printf("Ganaste %lu CLP\n", premio);
             system("pause");
         }
-
+        // si el sorteo es 2 el usuario perdio
         if(sorteo == 2){
             system("cls");
             printf("Ganador del encuentro: %s\n", equipo2->nombre);
@@ -2323,7 +2396,7 @@ void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, depor
             system("pause");
         }
     }
-
+    // este if hace el mismo procedimiento descrito anteriormente, solamente en el caso de que haya escogido al segundo equipo/deportista
     if(strcmp(apostado->nombre,equipo2->nombre) == 0){
 
         int pos,end,flag1=0,terminar_programa=0;
@@ -2471,6 +2544,8 @@ void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, depor
             system("cls");
         }
     }
+    /* Estos dos if son para comprobar si coincide lo escogido con lo que estaba en el encuentro
+    si llega a no coincidr este final de codigo se encarga de volver a escanear la apuesta*/
 
     if(strcmp(apostado->nombre,equipo1->nombre) != 0){
         if(strcmp(apostado->nombre,equipo2->nombre) != 0){
@@ -2489,6 +2564,7 @@ void escogerApuesta(usuario* cuenta, deportes* equipo1, deportes* equipo2, depor
     }
 }
 
+// Funcion que realiza el mismo trabajo que el importar ATP y importar F1, pero con sus datos correspondiente
 void importarNBA(HashMap *mapDeportes){
     FILE* archivo;
     archivo = fopen("NBA.csv","r");
@@ -2514,14 +2590,15 @@ void importarNBA(HashMap *mapDeportes){
     }
 }
 
+// Al igual que las otras apuestas, se realiza el mismo funcionamiento en esta funcion
 void apuestasFutbol(usuario * cuenta){
     int aux = 32 + 10 * 0.3;
     HashMap *mapDeportes = createMap(aux);
     importarFutbol(mapDeportes);
-    deportes *d = firstMap(mapDeportes);
     encuentrosFutbol(mapDeportes, cuenta);
 }
 
+// Esta funcion importar es igual a los importar anteriores de las demas apuestas deportivas
 void importarFutbol(HashMap * mapDeportes){
     FILE* archivo;
     archivo = fopen("Futbol.csv","r");
@@ -2545,7 +2622,15 @@ void importarFutbol(HashMap * mapDeportes){
     }
 }
 
+// Realiza el mismo trabajo que el encuentrosNBA y ATP solamente que con sus datos correspondiente del archivo
 void encuentrosFutbol(HashMap * mapDeportes, usuario * cuenta){
+    /* En esta funcion se crean dos variables int llamadas "sorteo" y "sorteo1" que iran sorteando mediante un random
+    numeros del 1 al valor del aux, estos valores se buscaran en el mapa Deportes ya que este contendra a los tenistas
+    luego de encontrar los valores del mapa deportes, se cambiara la key (primera key sera el numero de ingreso al mapa y
+    la segunda llave corresponde al nombre del equipo, esto con el fin de que no se puedan repetir los equipo)
+    despues de realizar esto se mostraran los encuentros uno por uno, despues de que se genera un encuentro
+    el usuario tendra tres opciones, apostar, pasar al siguiente encuentro y volver al menu de las apuestas */
+
     int sorteo,sorteo1;
     int cont = 0;
     int aux= 32;
@@ -2761,6 +2846,8 @@ void encuentrosFutbol(HashMap * mapDeportes, usuario * cuenta){
         apuestasFutbol(cuenta);
     }
 }
+
+// FIN DE LA CASA DE APUESTA Y COMIENZO DE LAS FUNCIONES DE LOS JUEGOS
 
 void juegos(usuario *cuenta) {
     system("cls");
